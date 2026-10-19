@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#d17d0e">
+  <title>Moqoboy optom — Onlayn xaridlar</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="top-banner">
+    🎉 Katta chegirmalar va ajoyib takliflar!
+  </div>
+
+  <header class="header">
+    <a class="logo" href="#">moqoboy<span>optom</span></a>
+
+    <button class="catalog-btn" id="catalogBtn" type="button">
+      ☰ Katalog
+    </button>
+
+    <div class="search-box">
+      <input id="searchInput" type="search"
+        placeholder="Mahsulotlarni qidirish...">
+      <button id="searchBtn" type="button" aria-label="Qidirish">🔍</button>
+    </div>
+
+    <button class="header-btn" id="loginBtn" type="button">👤 Profil</button>
+
+    <button class="header-btn cart-header" id="cartBtn"
+      type="button" aria-expanded="false" aria-controls="cartSection">
+      🛒 Savatcha <span id="cartCount">0</span>
+    </button>
+  </header>
+
+  <nav class="category-nav" id="categoryNav">
+    <button class="category active" data-category="Barchasi">Barchasi</button>
+    <button class="category" data-category="Cocacola">Cocacola</button>
+    <button class="category" data-category="Pivo">Pivo</button>
+    <button class="category" data-category="Sharbatlar">Sharbatlar</button>
+    <button class="category" data-category="Ichimliklar">Ichimliklar</button>
+    <button class="category" data-category="Kanyaklar">Kanyaklar</button>
+    <button class="category" data-category="Energetiklar">Energetiklar</button>
+    <button class="category" data-category="Suvlar">Suvlar</button>
+    <button class="category" data-category="Vino">Vino</button>
+    <button class="category" data-category="Choylar">Choylar</button>
+  </nav>
+
+  <main class="container">
+    <section class="hero">
+      <div class="hero-content">
+        <span class="hero-label">HAMYONBOP XARIDLAR</span>
+        <h1>Barcha kerakli mahsulotlar bir joyda!</h1>
+        <p>Sevimli ichimligingizni toping va xaridni boshlang.</p>
+        <button class="hero-btn" id="shopBtn" type="button">
+          Xarid qilish →
+        </button>
+      </div>
+      <div class="hero-art" aria-label="Ichimliklar">🥤</div>
+    </section>
+
+    <section class="benefits">
+      <div>🚚 <span>Yetkazib berish imkoniyati</span></div>
+      <div>💳 <span>Qulay to‘lov usullari</span></div>
+      <div>⭐ <span>Mashhur mahsulotlar</span></div>
+    </section>
+
+    <section class="products-section" id="productsSection">
+      <div class="section-heading">
+        <div>
+          <h2>Mashhur ichimliklar</h2>
+          <p>O‘zingizga yoqqan mahsulotni tanlang</p>
+        </div>
+        <select id="sortSelect" aria-label="Saralash">
+          <option value="default">Tavsiya etilgan</option>
+          <option value="cheap">Arzonidan</option>
+          <option value="expensive">Qimmatidan</option>
+        </select>
+      </div>
+
+      <div class="products-grid" id="productsGrid"></div>
+
+      <div class="empty-state" id="emptyState" hidden>
+        <span>🔎</span>
+        <h3>Mahsulot topilmadi</h3>
+        <p>Boshqa nom bilan qidirib ko‘ring.</p>
+      </div>
+    </section>
+
+    <!-- Savatcha faqat tugma bosilganda ochiladi -->
+    <section class="cart-section" id="cartSection"
+      aria-label="Savatcha" aria-hidden="true" hidden>
+      <div class="section-heading">
+        <div>
+          <h2>🛒 Savatchangiz</h2>
+          <p>Tanlagan mahsulotlaringiz</p>
+        </div>
+        <button class="cart-close-btn" id="closeCartBtn" type="button">
+          ✕ Yopish
+        </button>
+      </div>
+
+      <div id="cartItems" class="cart-items"></div>
+
+      <div class="cart-summary">
+        <div>
+          <span>Mahsulotlar soni:</span>
+          <strong id="summaryCount">0</strong>
+        </div>
+        <div class="total-row">
+          <span>Jami:</span>
+          <strong id="cartTotal">0 so‘m</strong>
+        </div>
+        <button id="clearCartBtn" class="clear-btn" type="button">
+          Savatni tozalash
+        </button>
+        <button id="checkoutBtn" class="checkout-btn" type="button">
+          Buyurtma berish →
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <a class="logo" href="#">moqoboy<span>optom</span></a>
+    <p>Onlayn xaridlar olamiga xush kelibsiz!</p>
+    <p>© <span id="year"></span> Moqoboy optom</p>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- Profil oynasi -->
+  <dialog id="loginDialog" class="modal profile-modal">
+    <button class="modal-close" type="button"
+      data-close="loginDialog" aria-label="Yopish">✕</button>
+
+    <div class="profile-top">
+      <div class="profile-avatar" id="profileAvatar">M</div>
+      <h2 id="profileDisplayName">Mening profilim</h2>
+      <p id="profileDisplayPhone">Telefon raqami kiritilmagan</p>
+      <span class="profile-status">✓ Xaridor profili</span>
+    </div>
+
+    <div class="profile-tabs">
+      <button type="button" class="profile-tab active" data-tab="info">
+        👤 Profil
+      </button>
+      <button type="button" class="profile-tab" data-tab="orders">
+        📦 Buyurtmalarim
+      </button>
+    </div>
+
+    <section class="profile-panel" id="profileInfoPanel">
+      <h3>Shaxsiy ma’lumotlar</h3>
+      <form id="profileForm" class="store-form">
+        <label for="profileName">Ism va familiya</label>
+        <input id="profileName" name="name" required maxlength="100"
+          autocomplete="name" placeholder="Ism Familiya">
+
+        <label for="profilePhone">Telefon raqami</label>
+        <input id="profilePhone" name="phone" type="tel" required
+          maxlength="20" autocomplete="tel"
+          placeholder="+998 90 123 45 67">
+
+        <label for="profileAddress">Yetkazib berish manzili</label>
+        <textarea id="profileAddress" name="address" rows="2"
+          maxlength="300" autocomplete="street-address"
+          placeholder="Shahar, ko‘cha, uy"></textarea>
+
+        <button class="checkout-btn" type="submit">
+          Ma’lumotlarni saqlash
+        </button>
+      </form>
+    </section>
+
+    <section class="profile-panel" id="profileOrdersPanel" hidden>
+      <h3>📦 Mening buyurtmalarim</h3>
+      <p class="profile-muted">Rasmiylashtirilgan buyurtmalaringiz.</p>
+      <div id="profileOrdersList"></div>
+    </section>
+
+    <p class="form-note">
+      Profil ma’lumotlari shu brauzerda saqlanadi.
+    </p>
+  </dialog>
+
+  <!-- Buyurtmani rasmiylashtirish -->
+  <dialog id="checkoutDialog" class="modal">
+    <button class="modal-close" type="button"
+      data-close="checkoutDialog" aria-label="Yopish">✕</button>
+
+    <h2>📦 Buyurtmani rasmiylashtirish</h2>
+    <div id="checkoutSummary"></div>
+
+    <form id="checkoutForm" class="store-form">
+      <label for="customerName">Ism va familiya</label>
+      <input id="customerName" name="name" required maxlength="100"
+        autocomplete="name" placeholder="Ism Familiya">
+
+      <label for="customerPhone">Telefon raqami</label>
+      <input id="customerPhone" name="phone" type="tel" required
+        maxlength="20" autocomplete="tel"
+        placeholder="+998 90 123 45 67">
+
+      <label for="customerAddress">Yetkazib berish manzili</label>
+      <textarea id="customerAddress" name="address" rows="3"
+        maxlength="300" required autocomplete="street-address"
+        placeholder="Shahar, ko‘cha, uy, mo‘ljal"></textarea>
+
+      <label for="customerNote">Izoh (ixtiyoriy)</label>
+      <textarea id="customerNote" name="note" rows="2"
+        maxlength="500" placeholder="Qo‘shimcha ma’lumot"></textarea>
+
+      <button class="checkout-btn" type="submit">
+        Buyurtmani tasdiqlash
+      </button>
+    </form>
+
+    <p class="form-note">
+      Demo rejimida buyurtma serverga yuborilmaydi.
+    </p>
+  </dialog>
+
+  <!-- Buyurtma natijasi -->
+  <dialog id="resultDialog" class="modal">
+    <button class="modal-close" type="button"
+      data-close="resultDialog" aria-label="Yopish">✕</button>
+    <div id="resultContent"></div>
+  </dialog>
+
+  <div class="panel-overlay" id="panelOverlay"></div>
+</body>
+</html>
